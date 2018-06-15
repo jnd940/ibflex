@@ -103,8 +103,8 @@ class TradeMixin(AccountMixin, CurrencyMixin, SecurityMixin):
     tradeTime = Time()
     settleDateTarget = Date()
     transactionType = OneOf(
-        "ExchTrade", "TradeCancel", "FracShare", "FracShareCancel",
-        "TradeCorrect", "BookTrade", "DvpTrade")
+        "ExchTrade", "ExchTradeTransfer", "ExchTradeTransferCancel", "TradeCancel",
+        "FracShare", "FracShareCancel", "TradeCorrect", "BookTrade", "DvpTrade")
     exchange = String()
     quantity = Decimal()
     tradePrice = Decimal()
@@ -490,7 +490,7 @@ class FxLot(Schema, AccountMixin):
 
 class Trade(Schema, TradeMixin):
     """ Wrapped in <Trades> """
-    buySell = OneOf("BUY", "BUY (Ca.)", "SELL", "SELL (Ca.)")
+    buySell = OneOf("ALLOC", "ALLOC (Ca.)", "BUY", "BUY (Ca.)", "SELL", "SELL (Ca.)")
     ibOrderID = String()
     ibExecID = String()
     brokerageOrderID = String()
@@ -509,7 +509,7 @@ class Trade(Schema, TradeMixin):
 
 class TradeConfirmation(Schema, TradeMixin):
     """ Wrapped in <TradeConfirms> """
-    buySell = OneOf("BUY", "BUY (Ca.)", "SELL", "SELL (Ca.)")
+    buySell = OneOf("ALLOC", "ALLOC (Ca.)", "BUY", "BUY (Ca.)", "SELL", "SELL (Ca.)")
     levelOfDetail = OneOf("SYMBOL_SUMMARY", "ORDER", "EXECUTION")
     commissionCurrency = OneOf(*CURRENCY_CODES)
     price = Decimal()
